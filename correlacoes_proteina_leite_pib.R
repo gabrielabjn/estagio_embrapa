@@ -1,4 +1,3 @@
-
 # 10/04/2023
 # Trabalho de verificao da correlacao entre consumo de leite/carne e PIB
 # Considerando diferentes paises.
@@ -15,7 +14,7 @@ class(df) # exibindo a nova classe dos dados
 
 # PLOT 1 - LEITE X PIB -------------------------------------------------------------------------------------------------
 
-plot1<-plot(y = log(df$`Consumo per capita leite - 2021`) , ylab = 'Consumo de Leite per capita (kg)',
+plot(y = log(df$`Consumo per capita leite - 2021`) , ylab = 'Consumo de Leite per capita (kg)',
             x = log(df$`PIB per capita - 2021`) , xlab = 'PIB per capita (dolares)', 
             col = 'darkblue', pch = 16, main = "Leite x PIB (ln)")
 correlacao<-cor.test(df$`PIB per capita - 2021`, df$`Consumo per capita leite - 2021`)
@@ -28,12 +27,12 @@ mtext(paste('corr:', format(round(correlacao$estimate, 2), nsmall = 2), '    p-v
 lm1<-lm(formula =  log(df$`Consumo per capita leite - 2021`) ~ log(df$`PIB per capita - 2021`))
 abline(lm1, col = 'red')
 
-
 par(mfrow = c(2,2))
+
 
 # PLOT 2 - BOI X CARNE -------------------------------------------------------------------------------------------------
 
-plot2<-plot(y = log(df$boi) , ylab = 'Consumo de Carne Bovina per capita (kg)',
+plot(y = log(df$boi) , ylab = 'Consumo de Carne Bovina per capita (kg)',
             x = log(df$`PIB per capita - 2021`) , xlab = 'PIB per capita (dolares)', 
             col = 'darkblue', pch = 16, main = "Carne Bovina x PIB (ln)")
 correlacao<-cor.test(df$`PIB per capita - 2021`, df$boi)
@@ -47,10 +46,9 @@ lm2<-lm(formula =  log(df$boi) ~ log(df$`PIB per capita - 2021`))
 abline(lm2, col = 'red')
 
 
-
 # PLOT 3 - PORCO X CARNE -------------------------------------------------------------------------------------------------
 
-plot3<-plot(y = df$porco , ylab = 'Consumo de Carne Suina per capita (kg)',
+plot(y = df$porco , ylab = 'Consumo de Carne Suina per capita (kg)',
             x = df$`PIB per capita - 2021` , xlab = 'PIB per capita (dolares)', 
             col = 'darkblue', pch = 16, main = "Carne Suina x PIB")
 correlacao<-cor.test(df$`PIB per capita - 2021`, df$porco)
@@ -67,7 +65,7 @@ abline(lm3, col = 'red')
 # PLOT 4 - FRANGO X CARNE -------------------------------------------------------------------------------------------------
 
 
-plot4<-plot(y = log(df$frango) , ylab = 'Consumo de Carne de Frango per capita (kg)',
+plot(y = log(df$frango) , ylab = 'Consumo de Carne de Frango per capita (kg)',
             x = log(df$`PIB per capita - 2021`) , xlab = 'PIB per capita (dolares)', 
             col = 'darkblue', pch = 16, main = "Carne Frango x PIB (ln)")
 correlacao<-cor.test(df$`PIB per capita - 2021`, df$frango)
@@ -83,7 +81,7 @@ abline(lm4, col = 'red')
 
 # PLOT 5 - OVELHA X CARNE -------------------------------------------------------------------------------------------------
 
-plot5<-plot(y = log(df$ovelha) , ylab = 'Consumo de Carne de Ovelha per capita (kg)',
+plot(y = log(df$ovelha) , ylab = 'Consumo de Carne de Ovelha per capita (kg)',
             x = log(df$`PIB per capita - 2021`) , xlab = 'PIB per capita (dolares)', 
             col = 'darkblue', pch = 16, main = "Carne Ovelha x PIB (ln)")
 correlacao<-cor.test(df$`PIB per capita - 2021`, df$ovelha)
@@ -96,12 +94,13 @@ mtext(paste('corr:', format(round(correlacao$estimate, 2), nsmall = 2), '    p-v
 lm5<-lm(formula =  log(df$ovelha) ~ log(df$`PIB per capita - 2021`))
 abline(lm5, col = 'red')
 
-rm(correlacao)
 
+# Limpar
 
+rm(correlacao,p.valor,lm1,lm2,lm3,lm4,lm5)
+dev.off()
 
 # Dados ficaram muito dispersos no scatterplot. Glauco solicitou trocar pra dotplot -------------------------------------- 
-
 
 consumo_sobre_pib<- df$`Consumo per capita leite - 2021`/df$`PIB per capita - 2021`
 
@@ -112,7 +111,7 @@ par(mfrow= c(2,2))
 par(mar = c(6, 4, 6, 1))
 
 dotchart(consumo_sobre_pib, df$Pais[1:35], pch = 21, bg = "steelblue1",
-         main = "Consumo de Leite por País- 2021",cex.main = 1.8,pt.cex = 1.5)
+         main = "Consumo de Leite por PaÃ­s- 2021",cex.main = 1.8,pt.cex = 1.5)
 title(xlab = "Consumo em kg/capita", line = 4, cex.lab = 1.5) 
 
 # Ainda nao ficou bom
@@ -124,7 +123,6 @@ title(xlab = "Consumo em kg/capita", line = 4, cex.lab = 1.5)
 df_PIB_rank<-df[order(df$`PIB per capita - 2021`,decreasing=TRUE),] # Cria novo df
 df_PIB_rank$`PIB per capita - 2021`
 
-
 consumo_sobre_pib_rank<- df_PIB_rank$`Consumo per capita leite - 2021`/df_PIB_rank$`PIB per capita - 2021`
 
 # Novo teste (grafico)
@@ -132,7 +130,7 @@ consumo_sobre_pib_rank<- df_PIB_rank$`Consumo per capita leite - 2021`/df_PIB_ra
 par(mar = c(6, 4, 6, 1))
 
 dotchart(consumo_sobre_pib_rank[1:35], df_PIB_rank$Pais[1:35], pch = 21, bg = "steelblue1",
-         main = "Consumo de Leite por País- 2021",cex.main = 1.8,pt.cex = 1.5)
+         main = "Consumo de Leite por PaÃ­s- 2021",cex.main = 1.8,pt.cex = 1.5)
 title(xlab = "Consumo em kg per capita / PIB", line = 4, cex.lab = 1.5) 
 
 # Agora, em ordem crescente
@@ -140,20 +138,16 @@ title(xlab = "Consumo em kg per capita / PIB", line = 4, cex.lab = 1.5)
 df_PIB_rank_as<-df[order(df$`PIB per capita - 2021`,decreasing=FALSE),] # Cria novo df
 df_PIB_rank_as$`PIB per capita - 2021`
 
-
 consumo_sobre_pib_as<- df_PIB_rank_as$`Consumo per capita leite - 2021`/df_PIB_rank_as$`PIB per capita - 2021`
-
 
 par(mar = c(6, 4, 6, 1))
 
 dotchart(consumo_sobre_pib_as[1:35], df_PIB_rank_as$Pais[1:35], pch = 21, bg = "steelblue1",
-         main = "Consumo de Leite por País- 2021",cex.main = 1.8, pt.cex = 1.5)
+         main = "Consumo de Leite por PaÃ­s- 2021",cex.main = 1.8, pt.cex = 1.5)
 title(xlab = "Consumo em kg per capita / PIB", line = 4, cex.lab = 1.5) 
 
-
 rm(df_PIB_rank, df_PIB_rank_as, consumo_sobre_pib, consumo_sobre_pib_as, consumo_sobre_pib_rank)
-
-
+dev.off()
 
 # Eu tinha entendido errado. Eh para organizar de acordo com a ordem crescente do leite/PIB -----------------------------
 # e nao apenas do PIB.
@@ -173,16 +167,12 @@ rm(leite_pib)
 df_rankeado<-df[order(df$leite_pib,decreasing=FALSE),] 
 df_rankeado
 
-# Criar dotplot
-
-dev.off()
-
 # Use graphics.off() for non-interactive sessions
 
 par(mar = c(6, 4, 6, 1))
 
 dotchart(df_rankeado$leite_pib[1:34], df_rankeado$Pais[1:34], pch = 21, bg = "steelblue1",
-         main = "Consumo de Leite por País- 2021",cex.main = 1.8, pt.cex = 1.5)
+         main = "Consumo de Leite por PaÃ­s- 2021",cex.main = 1.8, pt.cex = 1.5)
 title(xlab = "Consumo em kg per capita / PIB per capita", line = 4, cex.lab = 1.5) 
 
 # Grafico ficou de dificil interpretacao. Vamos fazer assim: dividir pib por mil
@@ -190,6 +180,7 @@ title(xlab = "Consumo em kg per capita / PIB per capita", line = 4, cex.lab = 1.
 # Quanto cada pessoa consome de leite por 1000 dolares de renda do pais. ------------------------------------------------
 
 rm(df_rankeado)
+dev.off()
 
 pib_sobre_mil<- (df$`PIB per capita - 2021`)/1000
 
@@ -201,19 +192,17 @@ df$leite_pib <- leite_pib
 
 df$leite_pib
 
-rm(leite_pib, df_rankeado)
+rm(leite_pib)
 
 df_rankeado1<-df[order(df$leite_pib,decreasing=FALSE),] 
 df_rankeado1
-
-dev.off()
 
 par(mar = c(6, 4, 6, 4))
 
 df_rankeado1$Pais
 
 dotchart(df_rankeado1$leite_pib[1:34], df_rankeado1$Pais[1:34], pch = 21, bg = c(rep("steelblue", 25),"green2",rep("steelblue", 8)),
-         main = "Consumo de Leite por País - 2021",cex.main = 1.8, pt.cex = 1.5,
+         main = "Consumo de Leite por PaÃ­s - 2021",cex.main = 1.8, pt.cex = 1.5,
          col = c(rep("black", 25),"green4",rep("black", 8)))
 
 axis(side=1, at=seq(0, 80, by=10))
@@ -244,15 +233,13 @@ par(mar = c(6, 4, 6, 4))
 
 df_rankeado2$Pais
 
-dotchart(df_rankeado2$boi_pib[1:34], df_rankeado2$Pais[1:34], pch = 21, bg = c(rep("steelblue", 32),"green2","steelblue"),
-         main = "Consumo de Carne Bovina por País - 2021",cex.main = 1.8, pt.cex = 1.5,
+dotchart(df_rankeado2$boi_pib[1:35], df_rankeado2$Pais[1:35], pch = 21, bg = c(rep("steelblue", 32),"green2","steelblue"),
+         main = "Consumo de Carne Bovina por PaÃ­s - 2021",cex.main = 1.8, pt.cex = 1.5,
          col = c(rep("black", 32), "green4", "black"))
 
 title(xlab = "Consumo em kg / $1000 PIB (ambos per capita) ", line = 4, cex.lab = 1.5) 
 
-
-
-# PORCO
+# PORCO ------------------------------------------------------------------------------------------------------------------
 
 porco_pib<-(df$porco/pib_sobre_mil)
 
@@ -273,14 +260,14 @@ par(mar = c(6, 4, 6, 4))
 
 df_rankeado3$Pais
 
-dotchart(df_rankeado3$porco_pib[1:34], df_rankeado3$Pais[1:34], pch = 21, bg = c(rep("steelblue", 28),"green2",rep("steelblue",5)),
-         main = "Consumo de Carne Suína por País - 2021",cex.main = 1.8, pt.cex = 1.5,
+dotchart(df_rankeado3$porco_pib[1:35], df_rankeado3$Pais[1:35], pch = 21, bg = c(rep("steelblue", 28),"green2",rep("steelblue",5)),
+         main = "Consumo de Carne SuÃ­na por PaÃ­s - 2021",cex.main = 1.8, pt.cex = 1.5,
          col = c(rep("black", 28), "green4", rep("black",5)))
 
 title(xlab = "Consumo em kg / $1000 PIB (ambos per capita) ", line = 4, cex.lab = 1.5) 
 
 
-# FRANGO
+# FRANGO -------------------------------------------------------------------------------------------------------------------
 
 frango_pib<-(df$frango/pib_sobre_mil)
 
@@ -301,15 +288,14 @@ par(mar = c(6, 4, 6, 4))
 
 df_rankeado4$Pais
 
-dotchart(df_rankeado4$frango_pib[1:34], df_rankeado4$Pais[1:34], pch = 21, bg = c(rep("steelblue", 33),"green2"),
-         main = "Consumo de Carne de Frango por País - 2021",cex.main = 1.8, pt.cex = 1.5,
+dotchart(df_rankeado4$frango_pib[1:35], df_rankeado4$Pais[1:35], pch = 21, bg = c(rep("steelblue", 33),"green2"),
+         main = "Consumo de Carne de Frango por PaÃ­s - 2021",cex.main = 1.8, pt.cex = 1.5,
          col = c(rep("black", 33), "green4"))
 
 title(xlab = "Consumo em kg / $1000 PIB (ambos per capita) ", line = 4, cex.lab = 1.5) 
 
 
-# OVELHA
-
+# OVELHA -------------------------------------------------------------------------------------------------------------------
 
 ovelha_pib<-(df$ovelha/pib_sobre_mil)
 
@@ -330,44 +316,44 @@ par(mar = c(6, 4, 6, 4))
 
 df_rankeado5$Pais
 
-dotchart(df_rankeado5$ovelha_pib[1:34], df_rankeado5$Pais[1:34], pch = 21, bg = c(rep("steelblue", 13),"green2", rep("steelblue",20)),
-         main = "Consumo de Carne de Ovelha por País - 2021",cex.main = 1.8, pt.cex = 1.5,
+dotchart(df_rankeado5$ovelha_pib[1:35], df_rankeado5$Pais[1:35], pch = 21, bg = c(rep("steelblue", 13),"green2", rep("steelblue",20)),
+         main = "Consumo de Carne de Ovelha por PaÃ­s - 2021",cex.main = 1.8, pt.cex = 1.5,
          col = c(rep("black", 13), "green4", rep("black",20)))
 
 title(xlab = "Consumo em kg / $1000 PIB (ambos per capita) ", line = 4, cex.lab = 1.5) 
 
 dev.off()
 
-# Junta tudo
+# Junta tudo ----------------------------------------------------------------------------------------------------------------
 
 par(mfrow=c(2,3), mar = c(6, 4, 6, 4))
 
 dotchart(df_rankeado1$leite_pib[1:34], df_rankeado1$Pais[1:34], pch = 21, bg = c(rep("steelblue", 25),"green2",rep("steelblue", 8)),
-         main = "Consumo de Leite por País - 2021",cex.main = 1.8, pt.cex = 1.5,
+         main = "Consumo de Leite por PaÃ­s - 2021",cex.main = 1.8, pt.cex = 1.5,
          col = c(rep("black", 25),"green4",rep("black", 8)))
 axis(side=1, at=seq(0, 80, by=10))
 title(xlab = "Consumo em kg / $1000 PIB (ambos per capita) ", line = 4, cex.lab = 1.5) 
 
-dotchart(df_rankeado2$boi_pib[1:34], df_rankeado2$Pais[1:34], pch = 21, bg = c(rep("steelblue", 32),"green2","steelblue"),
-         main = "Consumo de Carne Bovina por País - 2021",cex.main = 1.8, pt.cex = 1.5,
+dotchart(df_rankeado2$boi_pib[1:35], df_rankeado2$Pais[1:35], pch = 21, bg = c(rep("steelblue", 32),"green2","steelblue"),
+         main = "Consumo de Carne Bovina por PaÃ­s - 2021",cex.main = 1.8, pt.cex = 1.5,
          col = c(rep("black", 32), "green4", "black"))
 title(xlab = "Consumo em kg / $1000 PIB (ambos per capita) ", line = 4, cex.lab = 1.5) 
 
 
-dotchart(df_rankeado3$porco_pib[1:34], df_rankeado3$Pais[1:34], pch = 21, bg = c(rep("steelblue", 28),"green2",rep("steelblue",5)),
-         main = "Consumo de Carne Suína por País - 2021",cex.main = 1.8, pt.cex = 1.5,
+dotchart(df_rankeado3$porco_pib[1:35], df_rankeado3$Pais[1:35], pch = 21, bg = c(rep("steelblue", 28),"green2",rep("steelblue",5)),
+         main = "Consumo de Carne SuÃ­na por PaÃ­s - 2021",cex.main = 1.8, pt.cex = 1.5,
          col = c(rep("black", 28), "green4", rep("black",5)))
 title(xlab = "Consumo em kg / $1000 PIB (ambos per capita) ", line = 4, cex.lab = 1.5) 
 
 
-dot4<-dotchart(df_rankeado4$frango_pib[1:34], df_rankeado4$Pais[1:34], pch = 21, bg = c(rep("steelblue", 33),"green2"),
-               main = "Consumo de Carne de Frango por País - 2021",cex.main = 1.8, pt.cex = 1.5,
+dot4<-dotchart(df_rankeado4$frango_pib[1:35], df_rankeado4$Pais[1:35], pch = 21, bg = c(rep("steelblue", 33),"green2"),
+               main = "Consumo de Carne de Frango por PaÃ­s - 2021",cex.main = 1.8, pt.cex = 1.5,
                col = c(rep("black", 33), "green4"))
 title(xlab = "Consumo em kg / $1000 PIB (ambos per capita) ", line = 4, cex.lab = 1.5) 
 
 
-dot5<-dotchart(df_rankeado5$ovelha_pib[1:34], df_rankeado5$Pais[1:34], pch = 21, bg = c(rep("steelblue", 13),"green2", rep("steelblue",20)),
-               main = "Consumo de Carne de Ovelha por País - 2021",cex.main = 1.8, pt.cex = 1.5,
+dot5<-dotchart(df_rankeado5$ovelha_pib[1:35], df_rankeado5$Pais[1:35], pch = 21, bg = c(rep("steelblue", 13),"green2", rep("steelblue",20)),
+               main = "Consumo de Carne de Ovelha por PaÃ­s - 2021",cex.main = 1.8, pt.cex = 1.5,
                col = c(rep("black", 13), "green4", rep("black",20)))
 title(xlab = "Consumo em kg / $1000 PIB (ambos per capita) ", line = 4, cex.lab = 1.5) 
 
