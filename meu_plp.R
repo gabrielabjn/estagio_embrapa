@@ -10,12 +10,12 @@ setwd("Z:/user/Projetos/Papers/Correlacoes_Gabriela/previsao_plp")
 # Importe os dados do Excel
 dados <- read_excel("parametros_leite_gabriela - oficial.xlsx", range = cell_rows(2:218))
 
-# Verifique se h· valores ausentes nos dados
+# Verifique se h√° valores ausentes nos dados
 sum(is.na(dados))
 
 # Selecionando apenas as colunas com plp e va's que quero usar como preditoras
-dados_filtrados <- select(dados, meses, `preÁo ao produtor (R$/L)...18`, `UHT - cepea (R$/L)...21`, 
-                          `Leite em pÛ - cepea (R$/L)...22`, `Queijo MuÁarela (R$/kg)...27`,
+dados_filtrados <- select(dados, meses, `pre√ßo ao produtor (R$/L)...18`, `UHT - cepea (R$/L)...21`, 
+                          `Leite em p√≥ - cepea (R$/L)...22`, `Queijo Mu√ßarela (R$/kg)...27`,
                           `Leite Cru (Spot)...30`)
 
 rm(dados)
@@ -62,10 +62,10 @@ dados_t %>% ACF(plp, lag_max = 50) %>% autoplot()
 # da frequencia sazonal
 
 
-# Se as barras no gr·fico ACF diminuem gradualmente em direÁ„o a zero e, em seguida, ficam constantes, isso pode indicar que um modelo ARMA (autorregressivo de mÈdia mÛvel) seria apropriado. A ordem ARMA pode ser escolhida com base no n˙mero de lags em que a correlaÁ„o È significativa e n„o diminui para zero.
+# Se as barras no gr√°fico ACF diminuem gradualmente em dire√ß√£o a zero e, em seguida, ficam constantes, isso pode indicar que um modelo ARMA (autorregressivo de m√©dia m√≥vel) seria apropriado. A ordem ARMA pode ser escolhida com base no n√∫mero de lags em que a correla√ß√£o √© significativa e n√£o diminui para zero.
 #4
 
-# A ordem do componente de mÈdia mÛvel pode ser determinada pelo n˙mero de picos significativos no gr·fico ACF. Se houver um pico significativo no gr·fico ACF na defasagem q, o par‚metro q pode ser definido como q = n˙mero de defasagens atÈ o primeiro zero no gr·fico ACF.
+# A ordem do componente de m√©dia m√≥vel pode ser determinada pelo n√∫mero de picos significativos no gr√°fico ACF. Se houver um pico significativo no gr√°fico ACF na defasagem q, o par√¢metro q pode ser definido como q = n√∫mero de defasagens at√© o primeiro zero no gr√°fico ACF.
 # 2
 
 # Verificar se os dados sao estacionarios
@@ -145,10 +145,10 @@ augment(dados_fit) %>%
 
 # ------------------------------------------------------------------------------
 
-# Lembre-se que a seleÁ„o dos par‚metros n„o È uma tarefa simples e depende das 
-#caracterÌsticas da sÈrie temporal e do objetivo da an·lise. … importante avaliar 
-#diferentes modelos e compar·-los com mÈtricas de desempenho, como o erro mÈdio 
-#absoluto (MAE) e o erro quadr·tico mÈdio (MSE), para escolher o melhor modelo para a previs„o.
+# Lembre-se que a sele√ß√£o dos par√¢metros n√£o √© uma tarefa simples e depende das 
+#caracter√≠sticas da s√©rie temporal e do objetivo da an√°lise. √â importante avaliar 
+#diferentes modelos e compar√°-los com m√©tricas de desempenho, como o erro m√©dio 
+#absoluto (MAE) e o erro quadr√°tico m√©dio (MSE), para escolher o melhor modelo para a previs√£o.
 
 # Ajustar modelo Arima ---------------------------------------------------------
 
