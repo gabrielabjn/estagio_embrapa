@@ -1,11 +1,10 @@
 # Instale e carregue o pacote "readxl"
-library(readxl)
-library(fpp3)
-library(forecast)
-library(ggplot2)
+library(readxl) # ler arquivo excel (banco de dados)
+library(fpp3) # criar objeto tsibble 
+library(forecast) # fazer previsao
 
 # Defina o diretorio
-setwd("Z:/user/Projetos/Papers/Correlacoes_Gabriela/previsao_plp")
+setwd("C:/Users/55229/Documents/embrapa/series temporais")
 
 # Importe os dados do Excel
 dados <- read_excel("parametros_leite_gabriela - oficial.xlsx", range = cell_rows(2:218))
@@ -14,14 +13,10 @@ dados <- read_excel("parametros_leite_gabriela - oficial.xlsx", range = cell_row
 sum(is.na(dados))
 
 # Selecionando apenas as colunas com plp e va's que quero usar como preditoras
-dados_filtrados <- select(dados, meses, `preço ao produtor (R$/L)...18`, `UHT - cepea (R$/L)...21`, 
+dados <- select(dados, meses, `preço ao produtor (R$/L)...18`, `UHT - cepea (R$/L)...21`, 
                           `Leite em pó - cepea (R$/L)...22`, `Queijo Muçarela (R$/kg)...27`,
                           `Leite Cru (Spot)...30`)
 
-rm(dados)
-dados<-dados_filtrados
-rm(dados_filtrados)
-dados<-as.data.frame(dados)
 summary(dados)
 
 # Renomeando nomes das colunas
@@ -29,11 +24,12 @@ summary(dados)
 colnames(dados) <- c('meses','plp','uht', 'leite_po', 'mucarela', 'spot')
 summary(dados)
 
+# Alterando formato do index para ano/mes
+dados<-dados%>% mutate(meses = yearmonth(meses))
 
-# Convertendo estrutura 'dados': de data frame para tsibble
+# Criando estrutura tsibble (mais moderna aparentemente)
 
-dados_t = dados %>% mutate(meses = yearmonth(meses)) %>% as_tsibble(index = meses)
-
+dados_t<-dados %>% as_tsibble(index=meses)
 
 # Alguns graficos 
 
@@ -41,7 +37,6 @@ dados_t %>%
   autoplot(plp) +
   labs(x="Data", y="Valor em reais (R$)",
        title="Preco do leite ao produtor (Abr-2005 a Dez-2022)") 
-
 
 # nao eh estacionario na media nem na variancia
 # apresenta tendencia de crescimento e sazonalidade
